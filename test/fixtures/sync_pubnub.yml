@@ -1,0 +1,7 @@
+# Pubnub
+test:
+  adapter_javascript_url: "http://cdn.pubnub.com/pubnub-3.4.min.js" 
+  pubnub_subscribe_key: "sub-c-7839e1d8-acb2-11e2-9e4e-12313f022c90"
+  pubnub_publish_key: "pub-c-607d5887-9fc9-49d8-9e65-c1e0f8de77dc"
+  adapter: "PubnubAdapter"
+  async: false

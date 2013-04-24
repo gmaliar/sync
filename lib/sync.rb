@@ -11,6 +11,7 @@ require 'sync/channel'
 require 'sync/resource'
 require 'sync/clients/faye'
 require 'sync/clients/pusher'
+require 'sync/clients/pubnub'
 require 'sync/engine' if defined? Rails
 
 module Sync
@@ -63,6 +64,14 @@ module Sync
 
     def api_key
       config[:api_key]
+    end
+
+    def pubnub_publish_key
+      config[:pubnub_publish_key]
+    end
+
+    def pubnub_subscribe_key
+      config[:pubnub_subscribe_key]
     end
 
     # Returns the Faye Rack application.

@@ -14,6 +14,14 @@ development:
 #   adapter: "Pusher"
 #   async: true
 
+# Pubnub
+# development:
+#   adapter_javascript_url: "http://cdn.pubnub.com/pubnub-3.4.min.js" 
+#   pubnub_subscribe_key: "YOUR_SUBSCRIBE_KEY"
+#   pubnub_publish_key: "YOUR_PUBLISH_KEY"
+#   adapter: "PubnubAdapter"
+#   async: false
+
 test:
   server: "http://localhost:9292/faye"
   adapter_javascript_url: "http://localhost:9292/faye/faye.js" 
