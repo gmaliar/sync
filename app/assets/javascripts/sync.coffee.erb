@@ -1,12 +1,13 @@
 $ = jQuery
 
 @Sync = 
-  
   ready: false
   readyQueue: []
   FAYE_HOST: "<%= Sync.server %>"
   PUSHER_API_KEY: "<%= Sync.api_key %>"
   CLIENT_ADAPTER: "<%= Sync.adapter %>"
+  PUBNUB_PUBLISH_KEY: "<%= Sync.pubnub_publish_key %>"
+  PUBNUB_SUBSCRIBE_KEY: "<%= Sync.pubnub_subscribe_key %>"
 
   init: ->
     @adapter = new Sync[@CLIENT_ADAPTER]
@@ -106,12 +107,25 @@ class Sync.Pusher
     channel = @client.subscribe(channel)
     channel.bind 'sync', callback
 
-
   unsubscribeAll: ->
     for subscription in @subscriptions
       @client.unsubscribe(subscription) if @client.channel(subscription)?
     @subscriptions = []
 
+
+class Sync.Pubnub
+
+  connect: ->
+    @pubnub = window.PUBNUB.init(
+        publish_key: Sync.PUBNUB_PUBLISH_KEY,
+        subscribe_key: Sync.PUBNUB_SUBSCRIBE_KEY
+      )
+
+  subscribe: (channel, callback) -> 
+    @pubnub.subscribe(
+      channel: channel,
+      message: callback
+    )
 
 class Sync.View
   

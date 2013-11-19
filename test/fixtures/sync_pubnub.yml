@@ -1,0 +1,8 @@
+# Pubnub
+test:
+  adapter_javascript_url: "http://cdn.pubnub.com/pubnub-3.4.min.js" 
+  pubnub_subscribe_key: ""
+  pubnub_publish_key: ""
+  auth_token: ""
+  adapter: "Pubnub"
+  async: true

@@ -19,6 +19,7 @@ require 'sync/channel'
 require 'sync/resource'
 require 'sync/clients/faye'
 require 'sync/clients/pusher'
+require 'sync/clients/pubnub'
 require 'sync/reactor'
 if defined? Rails
   require 'sync/erb_tracker'
@@ -83,6 +84,14 @@ module Sync
 
     def reactor
       @reactor ||= Reactor.new
+    end
+    
+    def pubnub_publish_key
+      config[:pubnub_publish_key]
+    end
+
+    def pubnub_subscribe_key
+      config[:pubnub_subscribe_key]
     end
 
     # Returns the Faye Rack application.

@@ -52,4 +52,14 @@ module TestHelperPusher
   end
 end
 
+module TestHelperPubnub
+
+  def setup
+    Sync.load_config(
+      File.expand_path("../fixtures/sync_pubnub.yml", __FILE__),
+      "test"
+    )
+  end
+end
+
 

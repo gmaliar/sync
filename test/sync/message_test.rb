@@ -157,3 +157,74 @@ describe "Pusher" do
   end
 end
 
+describe "Pubnub" do
+  include TestHelperPubnub
+
+  before do
+    @message = Sync.client.build_message("/my-channel", html: "<p>Some Data</p>")
+  end
+
+
+  describe '#to_json' do
+    it "Converts message to json" do
+      assert @message.to_json
+    end
+  end
+
+  describe "asynchronous publishing" do
+    include EM::MiniTest::Spec
+
+    before do 
+      Sync.stubs(:async?).returns true
+      Pubnub.stubs(:callback).returns lambda { |envelope| envelope }
+    end
+  
+    describe "batched message publishing" do
+      before do
+        @messages = 10.times.collect{|i| Sync.client.build_message("/ch#{i}", {html: ""})}
+      end
+
+      it 'should publish array of messages with single post' do
+        assert Sync.client.batch_publish(@messages)
+      end
+    end
+
+    describe '#publish' do
+      it 'Publishes a message to Pubnub' do
+        defer = lambda do 
+          @message.publish
+        end
+
+        callback = lambda do
+          done!
+        end
+        
+        EM.defer(defer, callback)
+
+        wait!
+      end
+    end
+  end
+
+  describe "synchronous publishing" do
+    before do 
+      Sync.stubs(:async?).returns false
+    end
+
+    describe '#publish' do
+      it 'Publishes a message to Pubnub' do
+        assert_instance_of(Pubnub::Response, @message.publish)
+      end
+    end
+
+    describe "batched message publishing" do
+      before do
+        @messages = 10.times.collect{|i| Sync.client.build_message("/ch#{i}", {html: ""})}
+      end
+
+      it 'should publish array of messages with single post to faye' do
+        assert Sync.client.batch_publish(@messages)
+      end
+    end
+  end
+end
